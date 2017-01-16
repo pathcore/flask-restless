@@ -119,7 +119,7 @@ def search(session, model, filters=None, sort=None, group_by=None,
                 if ignorecase:
                     field = field.collate('NOCASE')
                 direction = getattr(field, direction_name)
-                query = query.join(relation_model)
+                query = query.join(relation_model, getattr(model, field_name))
                 query = query.order_by(direction())
             else:
                 field = getattr(model, field_name)
@@ -139,7 +139,7 @@ def search(session, model, filters=None, sort=None, group_by=None,
                 field_name, field_name_in_relation = field_name.split('.')
                 relation_model = aliased(get_related_model(model, field_name))
                 field = getattr(relation_model, field_name_in_relation)
-                query = query.join(relation_model)
+                query = query.join(relation_model, getattr(model, field_name))
                 query = query.group_by(field)
             else:
                 field = getattr(model, field_name)
