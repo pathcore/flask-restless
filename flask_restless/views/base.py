@@ -46,8 +46,8 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm.exc import MultipleResultsFound
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.orm.query import Query
-from werkzeug import parse_options_header
 from werkzeug.exceptions import HTTPException
+from werkzeug.http import parse_options_header
 
 from ..helpers import collection_name
 from ..helpers import get_model
