@@ -112,7 +112,18 @@ def search(session, model, filters=None, sort=None, group_by=None,
     if sort:
         for (symbol, field_name) in sort:
             direction_name = 'asc' if symbol == '+' else 'desc'
-            if '.' in field_name:
+            if '[' in field_name:
+                # Rudimentary dict support
+                field_name, field_key = field_name.split('[')
+                field_key, _ = field_key.split(']')
+                
+                field = getattr(model, field_name)[field_key]
+                if ignorecase:
+                    field = field.collate('NOCASE')
+                    
+                direction = getattr(field, direction_name)
+                query = query.order_by(direction())
+            elif '.' in field_name:
                 field_name, field_name_in_relation = field_name.split('.')
                 relation_model = aliased(get_related_model(model, field_name))
                 field = getattr(relation_model, field_name_in_relation)
