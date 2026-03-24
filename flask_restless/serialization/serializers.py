@@ -37,7 +37,7 @@ from sqlalchemy.ext.associationproxy import _AssociationSet
 from sqlalchemy.ext.hybrid import HYBRID_PROPERTY
 from sqlalchemy.inspection import inspect
 from werkzeug.routing import BuildError
-from werkzeug.urls import url_quote_plus
+from urllib.parse import quote_plus
 
 from .exceptions import SerializationException
 from .exceptions import MultipleExceptions
@@ -448,7 +448,7 @@ class DefaultSerializer(Serializer):
             try:
                 result['id'] = str(result['id'])
             except UnicodeEncodeError:
-                result['id'] = url_quote_plus(result['id'].encode('utf-8'))
+                result['id'] = quote_plus(result['id'].encode('utf-8'))
 
         # Serialize each relationship, excluding those that should be excluded.
         relationships = {}

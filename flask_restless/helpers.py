@@ -36,7 +36,7 @@ from sqlalchemy.orm import RelationshipProperty
 from sqlalchemy.sql import func
 from sqlalchemy.sql.expression import ColumnElement
 from sqlalchemy.inspection import inspect as sqlalchemy_inspect
-from werkzeug.urls import url_quote_plus
+from urllib.parse import quote_plus
 
 #: Strings which, when received by the server as the value of a date or time
 #: field, indicate that the server should use the current time when setting the
@@ -367,7 +367,7 @@ def primary_key_value(instance, as_string=False):
     try:
         return str(result)
     except UnicodeEncodeError:
-        return url_quote_plus(result.encode('utf-8'))
+        return quote_plus(result.encode('utf-8'))
 
 
 def is_like_list(model_or_instance, relationname):
